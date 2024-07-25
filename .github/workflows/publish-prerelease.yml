@@ -21,12 +21,14 @@ jobs:
         run: ant -noinput -buildfile build.xml jar
       - name: Get current date for release title
         id: get_datetime
-        run: echo "datetime=$(date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
+        run: |
+          echo "datetime_human=$(date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
+      - name: Delete existing prerelease
+        run: gh release delete unstable --yes --cleanup-tag
       - name: Publish prerelease
         uses: "softprops/action-gh-release@v2"
         with:
           tag_name: "unstable"
-          target_commitish: "master"
           prerelease: true
-          name: "Latest development build (generated ${{ steps.get_datetime.outputs.datetime }})"
+          name: "Latest development build (generated ${{ steps.get_datetime.outputs.datetime_human }})"
           files: jar/*.jar
