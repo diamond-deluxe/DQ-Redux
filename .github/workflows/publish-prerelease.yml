@@ -26,6 +26,7 @@ jobs:
         uses: "softprops/action-gh-release@v2"
         with:
           tag_name: "unstable"
+          target_commitish: "master"
           prerelease: true
           name: "Latest development build (generated ${{ steps.get_datetime.outputs.datetime }})"
           files: jar/*.jar
