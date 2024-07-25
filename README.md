@@ -4,7 +4,7 @@ DwarfQuest is an old-school roguelike developed by [Kathryn U.](https://github.c
 
 100th commit: 22:33, 24/02/2024!
 
-Test addition
+Test addition 2
 
 ## Gameplay
 
