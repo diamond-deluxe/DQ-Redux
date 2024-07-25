@@ -19,11 +19,13 @@ jobs:
           distribution: 'zulu'
       - name: Build with Ant
         run: ant -noinput -buildfile build.xml jar
+      - name: Get current date for release title
+        id: get_datetime
+        run: echo "datetime=$(date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
       - name: Publish prerelease
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: "softprops/action-gh-release@v2"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          tag_name: "unstable"
           prerelease: true
-          title: "Latest development build"
+          name: "Latest development build (generated ${{ steps.get_datetime.outputs.datetime }})"
           files: jar/*.jar
