@@ -24,6 +24,8 @@ jobs:
         run: |
           echo "datetime_human=$(date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
       - name: Delete existing prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: gh release delete unstable --yes --cleanup-tag
       - name: Publish prerelease
         uses: "softprops/action-gh-release@v2"
