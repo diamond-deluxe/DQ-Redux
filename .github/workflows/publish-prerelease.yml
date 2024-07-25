@@ -22,7 +22,7 @@ jobs:
       - name: Get current date for release title
         id: get_datetime
         run: |
-          echo "date=$(date_human +'%d %B %Y')" >> $GITHUB_OUTPUT
+          echo "date_human=$(date +'%d %B %Y')" >> $GITHUB_OUTPUT
           echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
           echo "time=$(date +'%H:%M')" >> $GITHUB_OUTPUT
       - name: Delete existing prerelease
