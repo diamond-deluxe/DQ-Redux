@@ -22,7 +22,8 @@ jobs:
       - name: Get current date for release title
         id: get_datetime
         run: |
-          echo "datetime_human=$(date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "time=$(date +'%H:%M')" >> $GITHUB_OUTPUT
       - name: Delete existing prerelease
         env:
           GH_TOKEN: ${{ github.token }}
@@ -32,5 +33,12 @@ jobs:
         with:
           tag_name: "unstable"
           prerelease: true
-          name: "Latest development build (generated ${{ steps.get_datetime.outputs.datetime_human }})"
+          name: "Latest development build"
+          body: |
+            Automatically generated on ${{ steps.get_datetime.outputs.date }} at ${{ steps.get_datetime.outputs.time }},
+            from the latest commits to `master`. 
+            
+            Note that this is a _development pre-release_, not a stable release, so features may be unfinished and bugs
+            may be present! Play at your own risk - but if you do find bugs, please 
+            [tell us about them](https://github.com/TheWelshEngineer/DQ-Redux/issues/new)!
           files: jar/*.jar
