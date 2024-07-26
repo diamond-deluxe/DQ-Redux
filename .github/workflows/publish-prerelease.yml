@@ -1,0 +1,45 @@
+name: Publish pre-release
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  pre-release:
+    name: Publish pre-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up JDK 13
+        uses: actions/setup-java@v3
+        with:
+          java-version: '13'
+          distribution: 'zulu'
+      - name: Build with Ant
+        run: ant -noinput -buildfile build.xml jar
+      - name: Get current date for release title
+        id: get_datetime
+        run: |
+          echo "date_human=$(date +'%d %B %Y')" >> $GITHUB_OUTPUT
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "time=$(date +'%H:%M')" >> $GITHUB_OUTPUT
+      - name: Delete existing prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete unstable --yes --cleanup-tag
+      - name: Publish prerelease
+        uses: "softprops/action-gh-release@v2"
+        with:
+          tag_name: "unstable"
+          prerelease: true
+          name: "Latest development build"
+          # note that line breaks in the body are added to the release body as-is,
+          # so if we want a paragraph without line breaks in it, it all has to be one line here :(
+          # turn on your editor's word-wrapping to avoid suffering!
+          body: |
+            Automatically generated on ${{ steps.get_datetime.outputs.date_human }} at ${{ steps.get_datetime.outputs.time }}, from the latest commits to `master`. This release is automatically regenerated as soon as new code is merged, so it may change at any time without warning.
+            
+            Note that this is the _latest development pre-release_, not a stable release, so features will be unfinished and bugs may be present! Play at your own risk - but if you do find bugs, please  [tell us about them](https://github.com/TheWelshEngineer/DQ-Redux/issues/new) :)
+          files: jar/*.jar
