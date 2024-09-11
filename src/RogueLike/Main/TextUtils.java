@@ -1,8 +1,8 @@
 package RogueLike.Main;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextUtils {
     public static class LineTooLongException extends IllegalArgumentException {
@@ -11,6 +11,13 @@ public class TextUtils {
             super(String.format("Line too long (%d > %d): '%s'", line.length(), maxLength, line));
         }
     }
+
+    /**
+     * The formatter pattern is either {{keyName}} or {{keyName:formatSpecifier}}, where formatSpecifier
+     * is a valid format string option, as would follow the % sign in a format string. For example,
+     * {{myKey:+d}} or {{otherKey:2f}}.
+     */
+    static Pattern formatterPattern = Pattern.compile("\\{\\{(\\w+)(?::([\\w-+,]+))?}}");
 
     /**
      * Join a list of strings together into a sequence of lines, not splitting strings across lines, and with each
@@ -87,5 +94,29 @@ public class TextUtils {
 
     public static String sentenceCase(String s) {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+    }
+
+    /**
+     * Format a string using a dictionary. Expects keys of the form either {{keyName}} or {{keyName:formatSpecifier}},
+     * where keyName is a key in the dictionary passed, and formatSpecifier is a valid format string option (as would
+     * follow the % sign in a format string).
+     * For example, {{myKey:+d}} or {{otherKey:2f}}.
+     * @param template The template string to format, as described above.
+     * @param data The dictionary of key-value pairs for replacing keys in the template string with.
+     * @return The template string with all templates replaced by their corresponding values from the dictionary.
+     */
+    public static String formatWithDict(String template, Map<String, Object> data) {
+        template = template.replace("%", "%%"); // avoid extra format strings
+        Matcher matcher = formatterPattern.matcher(template);
+        String formatString = matcher.replaceAll(match -> {
+            if (match.group(2) != null) {
+                return "%" + match.group(2);
+            } else {
+                return "%s";
+            }
+        });
+        matcher.reset();
+        Object[] formatArguments = matcher.results().map(match -> data.get(match.group(1))).toArray();
+        return String.format(formatString, formatArguments);
     }
 }

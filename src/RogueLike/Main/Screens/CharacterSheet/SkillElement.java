@@ -2,35 +2,39 @@ package RogueLike.Main.Screens.CharacterSheet;
 
 import RogueLike.Main.Creatures.Creature;
 import RogueLike.Main.ExtraMaths;
+import RogueLike.Main.Skill;
 import RogueLike.Main.SkillInstance;
+import RogueLike.Main.TextUtils;
 
-public abstract class SkillElement extends CharacterSheetElement {
-    protected final Creature player;
+import java.util.HashMap;
+import java.util.Map;
 
-    protected SkillElement(Creature player) {
+public class SkillElement extends CharacterSheetElement {
+    final Creature player;
+    final SkillInstance skill;
+
+    public SkillElement(Creature player, Skill skill) {
         this.player = player;
+        this.skill = player.skills().get(skill);
     }
 
     @Override
     public String header() {
-        return String.format("%s: %s", skill().name(), ExtraMaths.toRomanNumerals(skill().level()));
+        return String.format("%s: %s", skill.name(), ExtraMaths.toRomanNumerals(skill.level()));
     }
-
-    protected abstract SkillInstance skill();
-
-    protected abstract String descriptionLevel1();
-
-    protected abstract String descriptionLevel2();
-
-    protected abstract String descriptionLevel3();
 
     @Override
     public String details() {
+        Map<String, Object> playerDetails = new HashMap<>();
+        playerDetails.put("proficiencyBonus", player.proficiencyBonus());
+        playerDetails.put("proficiencyBonusTimesTwo", player.proficiencyBonus() * 2);
+        playerDetails.put("proficiencyBonusTimesFive", player.proficiencyBonus() * 5);
+        playerDetails.put("halfMaxMana", player.maxMana() / 2);
         return String.join(
             "\n\n",
-            skill().level() >= 1 ? descriptionLevel1() : "",
-            skill().level() >= 2 ? descriptionLevel2() : "",
-            skill().level() >= 3 ? descriptionLevel3() : ""
+            skill.level() >= 1 ? skill.name() + " I: " + TextUtils.formatWithDict(skill.type.descriptionLevel1, playerDetails) : "",
+            skill.level() >= 2 ? skill.name() + " II: " + TextUtils.formatWithDict(skill.type.descriptionLevel2, playerDetails) : "",
+            skill.level() >= 3 ? skill.name() + " III: " + TextUtils.formatWithDict(skill.type.descriptionLevel3, playerDetails) : ""
         );
     }
 }

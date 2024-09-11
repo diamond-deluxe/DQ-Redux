@@ -11,7 +11,7 @@ import RogueLike.Main.ExtendedAsciiPanel;
 import RogueLike.Main.Damage.DamageType;
 import RogueLike.Main.Managers.KeybindManager;
 import RogueLike.Main.Screens.CharacterSheet.*;
-import RogueLike.Main.Screens.CharacterSheet.Skills.*;
+import RogueLike.Main.Skill;
 import RogueLike.Main.TextUtils;
 
 public class CharacterSheetScreen implements Screen{
@@ -50,26 +50,26 @@ public class CharacterSheetScreen implements Screen{
 		);
 		elements.add( // column 2: skills
 			List.of(
-				new SimpleWeaponsSkillElement(player),
-				new MartialWeaponsSkillElement(player),
-				new FinesseWeaponsSkillElement(player),
-				new RangedWeaponsSkillElement(player),
+				new SkillElement(player, Skill.SIMPLE_WEAPONS),
+				new SkillElement(player, Skill.MARTIAL_WEAPONS),
+				new SkillElement(player, Skill.FINESSE_WEAPONS),
+				new SkillElement(player, Skill.RANGED_WEAPONS),
 				//
 				new SpacerElement(),
 				//
-				new ArmorTrainingSkillElement(player),
-				new FortitudeSkillElement(player),
-				new StealthSkillElement(player),
-				new PerceptionSkillElement(player),
+				new SkillElement(player, Skill.ARMOR_TRAINING),
+				new SkillElement(player, Skill.FORTITUDE),
+				new SkillElement(player, Skill.STEALTH),
+				new SkillElement(player, Skill.PERCEPTION),
 				//
 				new SpacerElement(),
 				//
-				new EvocationSkillElement(player),
-				new PyromancySkillElement(player),
-				new CryomancySkillElement(player),
-				new ElectromancySkillElement(player),
-				new AlchemancySkillElement(player),
-				new FerromancySkillElement(player)
+				new SkillElement(player, Skill.EVOCATION),
+				new SkillElement(player, Skill.PYROMANCY),
+				new SkillElement(player, Skill.CRYOMANCY),
+				new SkillElement(player, Skill.ELECTROMANCY),
+				new SkillElement(player, Skill.ALCHEMANCY),
+				new SkillElement(player, Skill.FERROMANCY)
 			)
 		);
 		elements.add( // column 3: current effects
