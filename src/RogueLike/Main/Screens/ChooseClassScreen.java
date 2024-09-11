@@ -1,10 +1,13 @@
 package RogueLike.Main.Screens;
 
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 import RogueLike.Main.Enums.PlayerAncestry;
 import RogueLike.Main.Enums.PlayerClass;
 import RogueLike.Main.ExtendedAsciiPanel;
+import RogueLike.Main.Skill;
+import RogueLike.Main.TextUtils;
 
 public class ChooseClassScreen implements Screen{
 	
@@ -27,312 +30,103 @@ public class ChooseClassScreen implements Screen{
 	public char borderCornerNE = 187;
 	public char borderCornerSW = 200;
 	public char borderCornerSE = 188;
-	
-	public char warriorLeft = '>';
-	public char warriorRight = '<';
-	public char rogueLeft = '>';
-	public char rogueRight = '<';
-	public char mageLeft = '>';
-	public char mageRight = '<';
-	public char rangerLeft = '>';
-	public char rangerRight = '<';
-	public char witchLeft = '>';
-	public char witchRight = '<';
-	public char paladinLeft = '>';
-	public char paladinRight = '<';
-	public char monkLeft = '>';
-	public char monkRight = '<';
-	
-	public void changeMarkers(int check) {
-		if(check == 0) {
-			warriorLeft = '>';
-			warriorRight = '<';
-			rogueLeft = ' ';
-			rogueRight = ' ';
-			mageLeft = ' ';
-			mageRight = ' ';
-			rangerLeft = ' ';
-			rangerRight = ' ';
-			witchLeft = ' ';
-			witchRight = ' ';
-			paladinLeft = ' ';
-			paladinRight = ' ';
-			monkLeft = ' ';
-			monkRight = ' ';
-		}else if(check == 1) {
-			warriorLeft = ' ';
-			warriorRight = ' ';
-			rogueLeft = '>';
-			rogueRight = '<';
-			mageLeft = ' ';
-			mageRight = ' ';
-			rangerLeft = ' ';
-			rangerRight = ' ';
-			witchLeft = ' ';
-			witchRight = ' ';
-			paladinLeft = ' ';
-			paladinRight = ' ';
-			monkLeft = ' ';
-			monkRight = ' ';
-		}else if(check == 2) {
-			warriorLeft = ' ';
-			warriorRight = ' ';
-			rogueLeft = ' ';
-			rogueRight = ' ';
-			mageLeft = '>';
-			mageRight = '<';
-			rangerLeft = ' ';
-			rangerRight = ' ';
-			witchLeft = ' ';
-			witchRight = ' ';
-			paladinLeft = ' ';
-			paladinRight = ' ';
-			monkLeft = ' ';
-			monkRight = ' ';
-		}else if(check == 3) {
-			warriorLeft = ' ';
-			warriorRight = ' ';
-			rogueLeft = ' ';
-			rogueRight = ' ';
-			mageLeft = ' ';
-			mageRight = ' ';
-			rangerLeft = '>';
-			rangerRight = '<';
-			witchLeft = ' ';
-			witchRight = ' ';
-			paladinLeft = ' ';
-			paladinRight = ' ';
-			monkLeft = ' ';
-			monkRight = ' ';
-		}else if(check == 4) {
-			warriorLeft = ' ';
-			warriorRight = ' ';
-			rogueLeft = ' ';
-			rogueRight = ' ';
-			mageLeft = ' ';
-			mageRight = ' ';
-			rangerLeft = ' ';
-			rangerRight = ' ';
-			witchLeft = '>';
-			witchRight = '<';
-			paladinLeft = ' ';
-			paladinRight = ' ';
-			monkLeft = ' ';
-			monkRight = ' ';
-		}else if(check == 5) {
-			warriorLeft = ' ';
-			warriorRight = ' ';
-			rogueLeft = ' ';
-			rogueRight = ' ';
-			mageLeft = ' ';
-			mageRight = ' ';
-			rangerLeft = ' ';
-			rangerRight = ' ';
-			witchLeft = ' ';
-			witchRight = ' ';
-			paladinLeft = '>';
-			paladinRight = '<';
-			monkLeft = ' ';
-			monkRight = ' ';
-		}else if(check == 6) {
-			warriorLeft = ' ';
-			warriorRight = ' ';
-			rogueLeft = ' ';
-			rogueRight = ' ';
-			mageLeft = ' ';
-			mageRight = ' ';
-			rangerLeft = ' ';
-			rangerRight = ' ';
-			witchLeft = ' ';
-			witchRight = ' ';
-			paladinLeft = ' ';
-			paladinRight = ' ';
-			monkLeft = '>';
-			monkRight = '<';
-		}
+
+	public PlayerClass selectedClass() {
+		return PlayerClass.values()[check];
 	}
 
 	public void displayOutput(ExtendedAsciiPanel terminal) {
-		changeMarkers(check);
 		terminal.clear();
 		Screen.generateBorders(terminal);
 		terminal.writeCenter("== Select your Class ==", 1);	
 		int y = 5;
 		
-		terminal.write(String.format("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", borderCornerNW, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderCornerNE), 5, y++);
-		//terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Warrior %c    %c", borderVertical, warriorLeft, warriorRight, borderVertical), 5, y++);
-		terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Rogue   %c    %c", borderVertical, rogueLeft, rogueRight, borderVertical), 5, y++);
-		terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Mage    %c    %c", borderVertical, mageLeft, mageRight, borderVertical), 5, y++);
-		terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Ranger  %c    %c", borderVertical, rangerLeft, rangerRight, borderVertical), 5, y++);
-		terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Witch  %c     %c", borderVertical, witchLeft, witchRight, borderVertical), 5, y++);
-		terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Paladin  %c   %c", borderVertical, paladinLeft, paladinRight, borderVertical), 5, y++);
-		terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c %c Monk  %c      %c", borderVertical, monkLeft, monkRight, borderVertical), 5, y++);
-		//terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
-		terminal.write(String.format("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", borderCornerSW, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderHorizontal, borderCornerSE), 5, y++);
-		
+		terminal.write(String.format("%c%s%c", borderCornerNW, String.valueOf(borderHorizontal).repeat(16), borderCornerNE), 5, y++);
+		for (PlayerClass playerClass: PlayerClass.values()) {
+			char cursorLeft;
+			char cursorRight;
+			if (playerClass == selectedClass()) {
+				cursorLeft = '>';
+				cursorRight = '<';
+			} else {
+				cursorLeft = ' ';
+				cursorRight = ' ';
+			}
+
+			terminal.write(String.format("%c %c %-7s %c    %c", borderVertical, cursorLeft, playerClass, cursorRight, borderVertical), 5, y++);
+			terminal.write(String.format("%c                %c", borderVertical, borderVertical), 5, y++);
+		}
+		terminal.write(String.format("%c%s%c", borderCornerSW, String.valueOf(borderHorizontal).repeat(16), borderCornerSE), 5, --y);
+
 		y = 3;
-		
-		if(check == 0) {
-			terminal.write("+||+ Warrior +||+", 26, y+=4);
-			y++;
-			terminal.write("Clad in steel plate and armed with mighty blades,", 31, y+=1);
-			terminal.write("warriors represent the archetypal adventurer for many.", 31, y+=1);
-			terminal.write("Their extensive training ensures that wherever", 31, y+=1);
-			terminal.write("a warrior goes, victory is sure to follow.", 31, y+=1);
-			y++;
-			terminal.write("+||+ Starting Skills +||+", 26, y+=1);
-			y++;
-			terminal.write("+ Martial Weapons (I)", 31, y+=1);
-			terminal.write("- You add your proficiency bonus to attack rolls made with Martial Weapons.", 33, y+=1);
-			y++;
-			terminal.write("+ Armor Training (I)", 31, y+=1);
-			terminal.write("- You can equip Medium Armor and Shields.", 33, y+=1);
-			y++;
-			terminal.write("+ 2x Level I skills of your choice", 31, y+=1);
-			y++;
-			terminal.write("+||+ Starting Equipment +||+",26,  y+=1);
-			y++;
-			terminal.write("+ Shortsword", 31, y+=1);
-			terminal.write("+ Chainmail Tunic", 31, y+=1);
-			terminal.write("+ Round Shield", 31, y+=1);
-			terminal.write("+ Ration of Food", 31, y+=1);
-		}else if(check == 1) {
-			terminal.write("+||+ Rogue +||+", 26, y+=4);
-			y++;
-			terminal.write("Cutthroats and scoundrels, rogues rarely fight", 31, y+=1);
-			terminal.write("on an even footing, prefering poisons, traps,", 31, y+=1);
-			terminal.write("and a knife in the dark. Cunning beyond measure,", 31, y+=1);
-			terminal.write("these heroes are always hiding a secret or two.", 31, y+=1);
-			y++;
-			terminal.write("+||+ Starting Skills +||+", 26, y+=1);
-			y++;
-			terminal.write("+ Finesse Weapons (I)", 31, y+=1);
-			terminal.write("- You add your proficiency bonus to attack rolls made with Finesse Weapons.", 33, y+=1);
-			y++;
-			terminal.write("+ Stealth (I)", 31, y+=1);
-			terminal.write("- You add your proficiency bonus to checks made to avoid waking sleeping monsters.", 33, y+=1);
-			y++;
-			terminal.write("+ 2x Level I skills of your choice", 31, y+=1);
-			y++;
-			terminal.write("+||+ Starting Equipment +||+", 26, y+=1);
-			y++;
-			terminal.write("+ Dagger", 31, y+=1);
-			terminal.write("+ Padded Armor", 31, y+=1);
-			terminal.write("+ Potion of Invisibility", 31, y+=1);
-			terminal.write("+ Ration of Food", 31, y+=1);
-		}else if(check == 2) {
-			terminal.writeCenter("+||+ Mage +||+", y+=4);
-			y++;
-			terminal.writeCenter("Gifted arcane scholars, magess possess a firm", y+=1);
-			terminal.writeCenter("grasp of the fundamentals of magic, and the sheer", y+=1);
-			terminal.writeCenter("power they can unleash ensures that many will", y+=1);
-			terminal.writeCenter("never even need to swing their weapons at all.", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Skills +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Evocation (I)", y+=1);
-			terminal.writeCenter("+ Pyromancy (I)", y+=1);
-			terminal.writeCenter("+ 2x Level I skills of your choice", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Equipment +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Padded Armor", y+=1);
-			terminal.writeCenter("+ Wand of Magic Missile", y+=1);
-			terminal.writeCenter("+ Wand of Firebolt", y+=1);
-			terminal.writeCenter("+ Ration of Food", y+=1);
-		}else if(check == 3) {
-			terminal.writeCenter("+||+ Ranger +||+", y+=4);
-			y++;
-			terminal.writeCenter("Wandering the outskirts of civilisation, rangers", y+=1);
-			terminal.writeCenter("are masters of survival, hunting, and bushcraft.", y+=1);
-			terminal.writeCenter("Possessed of keen eyesight and keener aim,", y+=1);
-			terminal.writeCenter("many threats have been ended by rangers without", y+=1);
-			terminal.writeCenter("the knowledge of the villages they protect.", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Skills +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Ranged Weapons (I)", y+=1);
-			terminal.writeCenter("+ Perception (I)", y+=1);
-			terminal.writeCenter("+ 2x Level I skills of your choice", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Equipment +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Club", y+=1);
-			terminal.writeCenter("+ Padded Armor", y+=1);
-			terminal.writeCenter("+ Shortbow", y+=1);
-			terminal.writeCenter("+ 20x Arrows", y+=1);
-			terminal.writeCenter("+ Ration of Food", y+=1);
-		}else if(check == 4) {
-			terminal.writeCenter("+||+ Witch +||+", y+=4);
-			y++;
-			terminal.writeCenter("Mysterious magic-wielders often working in the", y+=1);
-			terminal.writeCenter("shadows, witches trade the arcane studies undertaken", y+=1);
-			terminal.writeCenter("by traditional mages for a more hands-on approach.", y+=1);
-			terminal.writeCenter("Still, power must always come at a price..", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Skills +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Finesse Weapons (I)", y+=1);
-			terminal.writeCenter("+ Alchemancy (I)", y+=1);
-			terminal.writeCenter("+ 2x Level I skills of your choice", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Equipment +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Dagger", y+=1);
-			terminal.writeCenter("+ Padded Armor", y+=1);
-			terminal.writeCenter("+ Wand of Acid Blast", y+=1);
-			terminal.writeCenter("+ Ration of Food", y+=1);
-		}else if(check == 5) {
-			terminal.writeCenter("+||+ Paladin +||+", y+=4);
-			y++;
-			terminal.writeCenter("Devout warriors with deep connections to", y+=1);
-			terminal.writeCenter("their weapons, paladins swear mighty oaths", y+=1);
-			terminal.writeCenter("before each quest. Every victory deepens their", y+=1);
-			terminal.writeCenter("bond, their conviction, and their bravery.", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Skills +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Armor Training (I)", y+=1);
-			terminal.writeCenter("+ Ferromancy (I)", y+=1);
-			terminal.writeCenter("+ 2x Level I skills of your choice", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Equipment +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Shortsword", y+=1);
-			terminal.writeCenter("+ Chainmail Tunic", y+=1);
-			terminal.writeCenter("+ Wand of Blad's Ward", y+=1);
-			terminal.writeCenter("+ Ration of Food", y+=1);
-		}else if(check == 6) {
-			terminal.writeCenter("+||+ Monk +||+", y+=4);
-			y++;
-			terminal.writeCenter("Warrior monks posessed of an incredible", y+=1);
-			terminal.writeCenter("fighting spirit, monks thrive in the toughest", y+=1);
-			terminal.writeCenter("of conditions, seeing each new trial as a way", y+=1);
-			terminal.writeCenter("to further strengthen their faith and resolve.", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Skills +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Simple Weapons (I)", y+=1);
-			terminal.writeCenter("+ Fortitude (I)", y+=1);
-			terminal.writeCenter("+ 2x Level I skills of your choice", y+=1);
-			y++;
-			terminal.writeCenter("+||+ Starting Equipment +||+", y+=1);
-			y++;
-			terminal.writeCenter("+ Club", y+=1);
-			terminal.writeCenter("+ Padded Armor", y+=1);
-			terminal.writeCenter("+ Potion of Mind Vision", y+=1);
-			terminal.writeCenter("+ Ration of Food", y+=1);
+
+		terminal.write(String.format("+||+ %s +||+", selectedClass()), 26, y+=4);
+		y++;
+		terminal.writeMultiline(TextUtils.wordWrap(selectedClass().description, 52, 0), 26, y+=1);
+		y = terminal.getCursorY() + 1;  // we don't know a priori how many lines the description takes up
+		terminal.write("+||+ Starting Skills +||+", 26, y+=1);
+		y++;
+		for (Skill skill: selectedClass().startingSkills) {
+			terminal.write(String.format("+ %s I", skill), 31, y+=1);
+			String formattedDescription = "- " + TextUtils.formatWithDict(skill.descriptionLevel1, Map.of("proficiencyBonus", 2));
+			terminal.writeMultiline(TextUtils.wordWrap(formattedDescription, 60, 4), 31, y+1);
+			y = terminal.getCursorY() + 1;  // we don't know a priori how many lines the description takes up
+		}
+		terminal.write("+ 2x Level I skills of your choice", 31, y+=1);
+		y++;
+		terminal.write("+||+ Starting Equipment +||+",26,  y+=1);
+		y++;
+
+		// TODO(diamond) - maybe put this info on PlayerClass somehow?
+		switch (selectedClass()) {
+			case WARRIOR:
+				terminal.write("+ Shortsword", 31, y+=1);
+				terminal.write("+ Chainmail Tunic", 31, y+=1);
+				terminal.write("+ Round Shield", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
+			case ROGUE:
+				terminal.write("+ Dagger", 31, y+=1);
+				terminal.write("+ Padded Armor", 31, y+=1);
+				terminal.write("+ Potion of Invisibility", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
+			case MAGE:
+				terminal.write("+ Padded Armor", 31, y+=1);
+				terminal.write("+ Wand of Magic Missile", 31, y+=1);
+				terminal.write("+ Wand of Firebolt", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
+			case RANGER:
+				terminal.write("+ Club", 31, y+=1);
+				terminal.write("+ Padded Armor", 31, y+=1);
+				terminal.write("+ Shortbow", 31, y+=1);
+				terminal.write("+ 20x Arrows", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
+			case WITCH:
+				terminal.write("+ Dagger", 31, y+=1);
+				terminal.write("+ Padded Armor", 31, y+=1);
+				terminal.write("+ Wand of Acid Blast", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
+			case PALADIN:
+				terminal.write("+ Shortsword", 31, y+=1);
+				terminal.write("+ Chainmail Tunic", 31, y+=1);
+				terminal.write("+ Wand of Blad's Ward", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
+			case MONK:
+				terminal.write("+ Club", 31, y+=1);
+				terminal.write("+ Padded Armor", 31, y+=1);
+				terminal.write("+ Potion of Mind Vision", 31, y+=1);
+				terminal.write("+ Ration of Food", 31, y+=1);
+				break;
 		}
 
-		terminal.writeCenter("-- [UP / DOWN]: Move Selection | [ENTER]: Confirm and Continue --", 36);
-		terminal.writeCenter("-- [ESCAPE]: Return to Main Menu --", 38);
+
+		terminal.writeCenter("-- [UP / DOWN]: Move Selection | [ENTER]: Confirm and Continue --", 40);
+		terminal.writeCenter("-- [ESCAPE]: Return to Main Menu --", 42);
 	}
 
 	public Screen respondToUserInput(KeyEvent key) {
